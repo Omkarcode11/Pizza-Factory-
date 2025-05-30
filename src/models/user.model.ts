@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['CUSTOMER', 'MANAGER', 'DELIVERYAGENT','CHEF'],
+        enum: ['CUSTOMER', 'MANAGER', 'DELIVERY_AGENT','CHEF'],
         default: "CUSTOMER",
         required: true,
     },
@@ -48,6 +48,34 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6,
         select: false, // Exclude password from queries by default
+    },
+    address: {
+        street: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        city: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        state: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        zip: {
+            type: String,
+            required: true,
+            trim: true,
+            validate: {
+                validator: function(v: string) {
+                    return /^\d{5}(-\d{4})?$/.test(v);
+                },
+                message: props => `${props.value} is not a valid zip code!`
+            }
+        }
     },
 },{timestamps: true, versionKey: false, toJSON: { virtuals: true }, toObject: { virtuals: true } });
 

@@ -1,11 +1,11 @@
-import express from "express";
+import * as express from "express";
 import { getUsers } from "../controllers/user.controller";
 
 const router = express.Router();
 
 /**
  * @swagger
- * /api/users:
+ * /api/v1/users:
  *   get:
  *     summary: Retrieve a list of users
  *     responses:

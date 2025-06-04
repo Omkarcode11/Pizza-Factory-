@@ -9,6 +9,12 @@ const stuffSchema = new mongoose.Schema(
       minlength: 2,
       maxlength: 100,
     },
+    description: {
+      type: String,
+      trim: true,
+      maxlength: 10000,
+      minlength: 10,
+    },
     price: {
       type: Number,
       required: true,

@@ -26,7 +26,7 @@ const pizzaSchema = new mongoose.Schema(
         message: (props) => `${props.value} is not a valid image URL!`,
       },
     },
-    basePrise: {
+    basePrice: {
       type: Number,
       required: true,
       min: 0,

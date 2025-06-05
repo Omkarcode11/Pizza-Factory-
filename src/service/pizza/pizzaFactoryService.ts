@@ -59,7 +59,10 @@ class PizzaFactoryService implements PizzaRepository {
       description: createdPizza.description,
       img: createdPizza.img,
       basePrice: createdPizza.basePrice,
+      size: pizza.size,
       stuffing: this.stuffingTransform(createdPizza.stuffing),
+      createdAt: createdPizza.createdAt,
+      updatedAt: createdPizza.updatedAt,
     };
   }
 
@@ -70,13 +73,11 @@ class PizzaFactoryService implements PizzaRepository {
       title: pizza.title,
       description: pizza.description,
       img: pizza.img,
+      size: pizza.size,
       basePrice: pizza.basePrice,
-      stuffing: pizza.stuffing.map((s: any) => ({
-        id: s._id.toString(),
-        name: s.name,
-        description: s.description,
-        price: s.price,
-      })),
+      stuffing: this.stuffingTransform(pizza.stuffing),
+      createdAt: pizza.createdAt,
+      updatedAt: pizza.updatedAt,
     }));
   }
 
@@ -91,6 +92,9 @@ class PizzaFactoryService implements PizzaRepository {
       img: pizza.img,
       basePrice: pizza.basePrice,
       stuffing: this.stuffingTransform(pizza.stuffing),
+      size: pizza.size,
+      createdAt: pizza.createdAt,
+      updatedAt: pizza.updatedAt,
     };
   }
 
@@ -120,6 +124,9 @@ class PizzaFactoryService implements PizzaRepository {
           img: updatedPizza.img,
           basePrice: updatedPizza.basePrice,
           stuffing: this.stuffingTransform(updatedPizza.stuffing),
+          size: updatedPizza.size,
+          createdAt: updatedPizza.createdAt,
+          updatedAt: updatedPizza.updatedAt,
         }
       : null;
   }
@@ -144,6 +151,9 @@ class PizzaFactoryService implements PizzaRepository {
           img: updatedPizza.img,
           basePrice: updatedPizza.basePrice,
           stuffing: this.stuffingTransform(updatedPizza.stuffing),
+          size: updatedPizza.size,
+          createdAt: updatedPizza.createdAt,
+          updatedAt: updatedPizza.updatedAt,
         }
       : null;
   }
@@ -168,6 +178,9 @@ class PizzaFactoryService implements PizzaRepository {
           img: updatedPizza.img,
           basePrice: updatedPizza.basePrice,
           stuffing: this.stuffingTransform(updatedPizza.stuffing),
+          size: updatedPizza.size,
+          createdAt: updatedPizza.createdAt,
+          updatedAt: updatedPizza.updatedAt,
         }
       : null;
   }

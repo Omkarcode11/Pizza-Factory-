@@ -1,12 +1,4 @@
 import { Request, Response } from "express";
-import { PizzaDto, PizzaInstance } from "../../service/pizza/types";
-
-interface PizzaPriceDto {
-  pizzaId: string;
-  basePrice: number;
-  stuffingPrice: number;
-  totalPrice: number;
-}
 
 export interface PizzaControllerInterface {
   createPizza: (req: Request, res: Response) => Promise<void>;

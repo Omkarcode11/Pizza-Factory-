@@ -12,13 +12,14 @@ class PizzaController implements PizzaControllerInterface {
 
   public async createPizza(req: Request, res: Response): Promise<void> {
     try {
-      const { title, description, img, stuffing, basePrice } = req.body;
+      const { title, description, img, stuffing, basePrice, size } = req.body;
       const pizza: PizzaInstance = {
         title,
         description,
         img,
         stuffing,
         basePrice,
+        size: size || "medium", // Default size if not provided
       };
       const createdPizza = await this.pizzaService.createPizza(pizza);
       res.status(201).json(createdPizza);

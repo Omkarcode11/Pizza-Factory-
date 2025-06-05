@@ -11,11 +11,6 @@ const orderSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  pizza_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Pizza",
-    required: true,
-  },
   delivery_agent_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

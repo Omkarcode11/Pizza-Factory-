@@ -16,6 +16,12 @@ const pizzaSchema = new mongoose.Schema(
       minlength: 10,
       required: true,
     },
+    size: {
+      type: String,
+      required: true,
+      enum: ["small", "medium", "large"],
+      default: "medium",
+    },
     img: {
       type: String,
       required: true,

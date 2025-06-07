@@ -1,16 +1,18 @@
 import {
   OrderCreateRequest,
   OrderServiceInterface,
+  OrderStatus,
   OrderStatusDto,
   OrderUpdateRequest,
 } from "./types";
 import Order from "../../models/order.model";
+import serviceBus from "../../utils/event";
 
 export class OrderService implements OrderServiceInterface {
   private orderRepository: typeof Order;
 
   constructor(orderRepository: typeof Order) {
-    this.orderRepository = orderRepository || Order;
+    this.orderRepository = orderRepository;
   }
 
   public async createOrder(order: OrderCreateRequest): Promise<OrderStatusDto> {
@@ -19,9 +21,10 @@ export class OrderService implements OrderServiceInterface {
       userId: order.userId,
       products: order.products,
     });
+
     return {
       id: newOrder._id.toString(),
-      status: newOrder.status as OrderStatusDto["status"],
+      status: newOrder.status as OrderStatus,
       amount: newOrder.amount,
       userId: newOrder.user_id.toString(),
       products: newOrder.products.map((product) =>
@@ -39,7 +42,7 @@ export class OrderService implements OrderServiceInterface {
 
     return orders.map((order) => ({
       id: order._id.toString(),
-      status: order.status as OrderStatusDto["status"],
+      status: order.status as OrderStatus,
       amount: order.amount,
       userId: order.user_id ? order.user_id.toString() : null,
       chefId: order.chef ? order.chef._id.toString() : null,
@@ -63,7 +66,7 @@ export class OrderService implements OrderServiceInterface {
 
     return {
       id: order._id.toString(),
-      status: order.status as OrderStatusDto["status"],
+      status: order.status as OrderStatus,
       amount: order.amount,
       user: order.user_id,
       chef: order.chef ? order.chef._id.toString() : null,
@@ -102,7 +105,7 @@ export class OrderService implements OrderServiceInterface {
     if (!updatedOrderData) return null;
     return {
       id: updatedOrderData._id.toString(),
-      status: updatedOrderData.status as OrderStatusDto["status"],
+      status: updatedOrderData.status as OrderStatus,
       amount: updatedOrderData.amount,
       userId: updatedOrderData.user_id
         ? updatedOrderData.user_id.toString()
@@ -123,7 +126,7 @@ export class OrderService implements OrderServiceInterface {
 
   public async updateOrderStatus(
     id: string,
-    status: OrderStatusDto["status"]
+    status: OrderStatus
   ): Promise<OrderStatusDto | null> {
     const order = await this.orderRepository.findByIdAndUpdate(
       id,
@@ -135,7 +138,7 @@ export class OrderService implements OrderServiceInterface {
 
     return {
       id: order._id.toString(),
-      status: order.status as OrderStatusDto["status"],
+      status: order.status as OrderStatus,
       amount: order.amount,
       userId: order.user_id ? order.user_id.toString() : null,
       chefId: order.chef ? order.chef._id.toString() : null,
@@ -146,5 +149,53 @@ export class OrderService implements OrderServiceInterface {
       createdAt: order.createdAt,
       updatedAt: order.updatedAt,
     };
+  }
+
+  public async assignChefToOrder(
+    orderId: string,
+    chefId: string
+  ): Promise<OrderStatusDto | null> {
+    const order = await this.orderRepository.findByIdAndUpdate(
+      orderId,
+      { chef: chefId, status: "ACCEPTED" },
+      { new: true }
+    );
+
+    if (!order) return null;
+    return {
+      id: order._id.toString(),
+      status: order.status as OrderStatus,
+      amount: order.amount,
+      userId: order.user_id ? order.user_id.toString() : null,
+      chefId: order.chef ? order.chef._id.toString() : null,
+      products: order.products.map((product) => product.product_id.toString()),
+      deliveryAgentId: order.delivery_agent_id
+        ? order.delivery_agent_id.toString()
+        : null,
+      createdAt: order.createdAt,
+      updatedAt: order.updatedAt,
+    };
+  }
+
+  public async getOrdersByStatus(
+    status: OrderStatus
+  ): Promise<OrderStatusDto[]> {
+    const orders = await this.orderRepository.find(
+      { status },
+      { sort: { createdAt: -1 } }
+    );
+    return orders.map((order) => ({
+      id: order._id.toString(),
+      status: order.status as OrderStatus,
+      amount: order.amount,
+      userId: order.user_id ? order.user_id.toString() : null,
+      chefId: order.chef ? order.chef._id.toString() : null,
+      products: order.products.map((product) => product.product_id.toString()),
+      deliveryAgentId: order.delivery_agent_id
+        ? order.delivery_agent_id.toString()
+        : null,
+      createdAt: order.createdAt,
+      updatedAt: order.updatedAt,
+    }));
   }
 }

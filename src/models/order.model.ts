@@ -1,49 +1,51 @@
 import mongoose from "mongoose";
+import { OrderStatus } from "../service/order/types";
 
-const orderSchema = new mongoose.Schema({
-  amount: {
-    type: Number,
-    required: true,
-    min: 0,
-  },
-  user_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  delivery_agent_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    default: null,
-  },
-  products: [
-    {
-      product_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Pizza",
-        required: true,
-      },
+const orderSchema = new mongoose.Schema(
+  {
+    amount: {
+      type: Number,
+      required: true,
+      min: 0,
     },
-  ],
-  chef: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    default: null,
-  },
-  status: {
-    type: String,
-    required: true,
-    enum: [
-      "PENDING",
-      "ACCEPTED",
-      "PREPARED",
-      "OUT_FOR_DELIVERY",
-      "DELIVERED",
-      "CANCELLED",
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    delivery_agent_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    products: [
+      {
+        product_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Pizza",
+          required: true,
+        },
+      },
     ],
-    default: "PENDING",
+    chef: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: OrderStatus,
+      default: "PENDING",
+    },
   },
-},{timestamps: true, versionKey: false, toJSON: { virtuals: true }, toObject: { virtuals: true }}); 
+  {
+    timestamps: true,
+    versionKey: false,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
 
 const Order = mongoose.model("Order", orderSchema);
 export default Order;

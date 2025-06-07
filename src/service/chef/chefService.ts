@@ -153,7 +153,7 @@ export class ChefService implements ChefServiceInterface {
 
     this.orderService.updateOrderStatus(
       updatedChef.order_id?.toString(),
-      OrderStatus.PREPARED
+      OrderStatus.PREPARING
     );
 
     eventBus.emit("chef.order.prepared", {

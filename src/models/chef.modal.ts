@@ -31,6 +31,12 @@ const chefSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    performance_score: {
+      type: Number,
+      default: 10,
+      min: 5,
+      max: 100,
+    },
     order_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Order",

@@ -10,10 +10,10 @@ export interface OrderStatusDto {
   updatedAt?: Date;
 }
 
-enum OrderStatus {
+export enum OrderStatus {
   PENDING = "PENDING",
   ACCEPTED = "ACCEPTED",
-  PREPARING = "PREPARING",
+  PREPARED = "PREPARED",
   OUT_FOR_DELIVERY = "OUT_FOR_DELIVERY",
   DELIVERED = "DELIVERED",
   CANCELLED = "CANCELLED",
@@ -41,5 +41,9 @@ export interface OrderServiceInterface {
   updateOrder(
     id: string,
     orderData: OrderUpdateRequest
+  ): Promise<OrderStatusDto | null>;
+  assignChefToOrder(
+    orderId: string,
+    chefId: string
   ): Promise<OrderStatusDto | null>;
 }

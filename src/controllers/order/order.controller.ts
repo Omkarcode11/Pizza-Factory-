@@ -4,6 +4,7 @@ import { OrderService } from "../../service/order/orderService";
 import { OrderCreateRequest } from "../../service/order/types";
 import PizzaFactoryService from "../../service/pizza/pizzaFactoryService";
 import { OrderControllerInterface } from "./types";
+import serviceBus from "../../utils/event";
 
 export class OrderController implements OrderControllerInterface {
   private orderService: OrderService;
@@ -37,6 +38,17 @@ export class OrderController implements OrderControllerInterface {
         amount: await amount, // Ensure this resolves to a number
       };
       const order = await this.orderService.createOrder(orderData);
+
+      // Emit an event to notify other services about the new order
+      serviceBus.emit("order.created", {
+        orderId: order.id,
+        userId: order.userId,
+        products: order.products,
+        amount: order.amount,
+        status: order.status,
+        createdAt: order.createdAt,
+        updatedAt: order.updatedAt,
+      });
 
       res.status(201).json(order);
     } catch (error) {
@@ -91,14 +103,14 @@ export class OrderController implements OrderControllerInterface {
         addProducts: productIds,
         amount: totalPrice,
       };
-      
+
       if (totalPrice <= 0) {
         res
           .status(400)
           .json({ error: "Total price must be greater than zero" });
         return;
       }
-      
+
       const updatedOrder = await this.orderService.updateOrder(id, orderData);
       if (!updatedOrder) {
         res.status(404).json({ error: "Order not found" });

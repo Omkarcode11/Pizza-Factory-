@@ -3,7 +3,7 @@ import { StuffingDto, StuffingInstance, StuffingRepository } from "./types";
 
 class StuffFactoryService implements StuffingRepository {
   private stuff: typeof Stuff;
-  constructor(stuffModel: typeof Stuff = Stuff) {
+  constructor(stuffModel: typeof Stuff) {
     // You can initialize any dependencies here if needed
     this.stuff = stuffModel;
   }

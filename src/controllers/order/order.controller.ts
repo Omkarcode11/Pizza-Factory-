@@ -10,12 +10,9 @@ export class OrderController implements OrderControllerInterface {
   private orderService: OrderService;
   private productService: PizzaFactoryService;
 
-  constructor(
-    orderService?: OrderService,
-    productService?: PizzaFactoryService
-  ) {
-    this.orderService = orderService || new OrderService(Order);
-    this.productService = productService || new PizzaFactoryService();
+  constructor(orderService: OrderService, productService: PizzaFactoryService) {
+    this.orderService = orderService;
+    this.productService = productService;
   }
 
   public async createOrder(req: Request, res: Response): Promise<void> {

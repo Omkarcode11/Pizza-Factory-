@@ -5,8 +5,8 @@ import { ChefControllerInterface } from "./types";
 export class ChefController implements ChefControllerInterface {
   private chefService: ChefService; // Replace with actual service type
 
-  constructor(chefService?: ChefService) {
-    this.chefService = chefService || new ChefService(); // Initialize with a default service
+  constructor(chefService: ChefService) {
+    this.chefService = chefService ; // Initialize with a default service
   }
 
   public async getChefs(req: Request, res: Response): Promise<void> {

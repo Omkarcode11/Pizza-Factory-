@@ -21,6 +21,8 @@ interface ChefUpdateRequest {
   password?: string; // Password should be hashed before saving
 }
 
+
+
 interface ChefServiceInterface {
   getChefs(): Promise<ChefDto[]>;
   getChefById(id: string): Promise<ChefDto | null>;
@@ -29,5 +31,6 @@ interface ChefServiceInterface {
   deleteChef(id: string): Promise<boolean>; // Delete a chef by ID
   getFreeChefs(): Promise<ChefDto[]>; // Get chefs who are not busy
   assignOrderToChef(chefId: string, orderId: string): Promise<ChefDto | null>; // Assign an order to a chef
-  completeOrder(chefId: string): Promise<ChefDto | null>; // Mark an order as completed by a chef
+  selectChef(chefs:ChefDto[]):ChefDto;
+  orderPrepared(chefId: string): Promise<ChefDto | null>; // Mark an order as completed by a chef
 }

@@ -1,10 +1,15 @@
 import Chef from "../../models/chef.modal";
+import eventBus from "../../utils/event";
+import { OrderService } from "../order/orderService";
+import { OrderStatus } from "../order/types";
 
 export class ChefService implements ChefServiceInterface {
   private chefModel: typeof Chef;
+  private orderService: OrderService;
 
-  constructor(chefModel?: typeof Chef) {
-    this.chefModel = chefModel || Chef;
+  constructor(chefModel: typeof Chef, orderService: OrderService) {
+    this.chefModel = chefModel;
+    this.orderService = orderService;
   }
 
   public async createChef(chefData: ChefCreateRequest): Promise<ChefDto> {
@@ -128,7 +133,7 @@ export class ChefService implements ChefServiceInterface {
     };
   }
 
-  public async completeOrder(chefId: string): Promise<ChefDto | null> {
+  public async orderPrepared(chefId: string): Promise<ChefDto | null> {
     const updatedChef = await this.chefModel
       .findByIdAndUpdate(
         chefId,
@@ -139,6 +144,17 @@ export class ChefService implements ChefServiceInterface {
     if (!updatedChef) {
       return null;
     }
+
+    this.orderService.updateOrderStatus(
+      updatedChef.order_id?.toString(),
+      OrderStatus.PREPARED
+    );
+
+    eventBus.emit("chef.order.prepared", {
+      chefId: updatedChef._id.toString(),
+      orderId: updatedChef.order_id ? updatedChef.order_id.toString() : null,
+    });
+
     return {
       id: updatedChef._id.toString(),
       name: updatedChef.name,
@@ -147,5 +163,9 @@ export class ChefService implements ChefServiceInterface {
       busy: updatedChef.busy,
       order_id: updatedChef.order_id ? updatedChef.order_id.toString() : null,
     };
+  }
+
+  public selectChef(chefs: ChefDto[]) {
+    return chefs.shift();
   }
 }

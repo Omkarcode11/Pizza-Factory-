@@ -15,7 +15,7 @@ class PizzaFactoryService implements PizzaRepository {
 
   constructor(
     pizzaModel: typeof Pizza = Pizza,
-    stuffService: StuffFactoryService = new StuffFactoryService(Stuff)
+    stuffService: StuffFactoryService
   ) {
     this.pizza = pizzaModel;
     this.stuffService = stuffService;

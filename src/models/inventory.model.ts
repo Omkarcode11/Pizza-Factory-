@@ -4,20 +4,10 @@ const inventorySchema = new mongoose.Schema(
   {
     product_id: {
       type: mongoose.Schema.Types.ObjectId,
-      refPath: "productModal", // Reference to either Pizza or Stuff model
-      required: true,
-    },
-    productModal: {
-      type: String,
-      enum: ["Pizza", "Stuff"],
+      refPath: "Stuff", // Reference to either Pizza or Stuff model
       required: true,
     },
     quantity: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-    price: {
       type: Number,
       required: true,
       min: 0,

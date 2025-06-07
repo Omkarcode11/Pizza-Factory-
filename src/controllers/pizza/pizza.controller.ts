@@ -6,8 +6,8 @@ import PizzaFactoryService from "../../service/pizza/pizzaFactoryService";
 class PizzaController implements PizzaControllerInterface {
   private pizzaService: PizzaRepository;
 
-  constructor(pizzaService?: PizzaRepository) {
-    this.pizzaService = pizzaService || new PizzaFactoryService();
+  constructor(pizzaService: PizzaRepository) {
+    this.pizzaService = pizzaService ;
   }
 
   public async createPizza(req: Request, res: Response): Promise<void> {

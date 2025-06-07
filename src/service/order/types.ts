@@ -12,8 +12,8 @@ export interface OrderStatusDto {
 
 export enum OrderStatus {
   PENDING = "PENDING",
-  ACCEPTED = "ACCEPTED",
-  PREPARED = "PREPARED",
+  PREPARING = "PREPARING",
+  READY = "READY",
   OUT_FOR_DELIVERY = "OUT_FOR_DELIVERY",
   DELIVERED = "DELIVERED",
   CANCELLED = "CANCELLED",

@@ -6,7 +6,6 @@ import {
   OrderUpdateRequest,
 } from "./types";
 import Order from "../../models/order.model";
-import serviceBus from "../../utils/event";
 
 export class OrderService implements OrderServiceInterface {
   private orderRepository: typeof Order;
@@ -157,7 +156,7 @@ export class OrderService implements OrderServiceInterface {
   ): Promise<OrderStatusDto | null> {
     const order = await this.orderRepository.findByIdAndUpdate(
       orderId,
-      { chef: chefId, status: "ACCEPTED" },
+      { chef: chefId, status: OrderStatus.PENDING },
       { new: true }
     );
 

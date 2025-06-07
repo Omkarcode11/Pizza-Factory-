@@ -26,6 +26,7 @@ export class ChefService implements ChefServiceInterface {
       email: chef.email,
       contact_number: chef.contact_number,
       busy: chef.busy,
+      performance_score: chef.performance_score,
       order_id: chef.order_id ? chef.order_id.toString() : null,
     };
   }
@@ -38,6 +39,7 @@ export class ChefService implements ChefServiceInterface {
       email: chef.email,
       contact_number: chef.contact_number,
       busy: chef.busy,
+      performance_score: chef.performance_score,
       order_id: chef.order_id ? chef.order_id.toString() : null,
     }));
   }
@@ -53,6 +55,7 @@ export class ChefService implements ChefServiceInterface {
       email: chef.email,
       contact_number: chef.contact_number,
       busy: chef.busy,
+      performance_score: chef.performance_score,
       order_id: chef.order_id ? chef.order_id.toString() : null,
     };
   }
@@ -88,6 +91,7 @@ export class ChefService implements ChefServiceInterface {
       email: updatedChef.email,
       contact_number: updatedChef.contact_number,
       busy: updatedChef.busy,
+      performance_score: updatedChef.performance_score,
       order_id: updatedChef.order_id ? updatedChef.order_id.toString() : null,
     };
   }
@@ -105,6 +109,7 @@ export class ChefService implements ChefServiceInterface {
       email: chef.email,
       contact_number: chef.contact_number,
       busy: chef.busy,
+      performance_score: chef.performance_score,
       order_id: chef.order_id ? chef.order_id.toString() : null,
     }));
   }
@@ -129,6 +134,7 @@ export class ChefService implements ChefServiceInterface {
       email: updatedChef.email,
       contact_number: updatedChef.contact_number,
       busy: updatedChef.busy,
+      performance_score: updatedChef.performance_score,
       order_id: updatedChef.order_id ? updatedChef.order_id.toString() : null,
     };
   }
@@ -161,11 +167,9 @@ export class ChefService implements ChefServiceInterface {
       email: updatedChef.email,
       contact_number: updatedChef.contact_number,
       busy: updatedChef.busy,
+      performance_score: updatedChef.performance_score,
       order_id: updatedChef.order_id ? updatedChef.order_id.toString() : null,
     };
   }
 
-  public selectChef(chefs: ChefDto[]) {
-    return chefs.shift();
-  }
 }

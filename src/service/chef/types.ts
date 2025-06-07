@@ -3,6 +3,7 @@ interface ChefDto {
   name: string;
   email: string;
   contact_number: string;
+  performance_score:number;
   busy: boolean;
   order_id: string | null; // Optional, as it may not always be assigned
 }
@@ -31,6 +32,5 @@ interface ChefServiceInterface {
   deleteChef(id: string): Promise<boolean>; // Delete a chef by ID
   getFreeChefs(): Promise<ChefDto[]>; // Get chefs who are not busy
   assignOrderToChef(chefId: string, orderId: string): Promise<ChefDto | null>; // Assign an order to a chef
-  selectChef(chefs:ChefDto[]):ChefDto;
   orderPrepared(chefId: string): Promise<ChefDto | null>; // Mark an order as completed by a chef
 }

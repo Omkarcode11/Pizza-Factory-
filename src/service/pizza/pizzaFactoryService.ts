@@ -1,5 +1,6 @@
 import Pizza from "../../models/pizza.model";
 import Stuff from "../../models/stuff.model";
+import { InventoryService } from "../inventory/inventory.service";
 import StuffFactoryService from "../stuff/stuffFactoryService";
 import { StuffingDto, StuffingInstance } from "../stuff/types";
 import {
@@ -12,13 +13,16 @@ import {
 class PizzaFactoryService implements PizzaRepository {
   private pizza: typeof Pizza;
   private stuffService: StuffFactoryService;
+  private inventoryService: InventoryService;
 
   constructor(
     pizzaModel: typeof Pizza = Pizza,
-    stuffService: StuffFactoryService
+    stuffService: StuffFactoryService,
+    inventoryService: InventoryService
   ) {
     this.pizza = pizzaModel;
     this.stuffService = stuffService;
+    this.inventoryService = inventoryService;
   }
 
   private stuffingTransform(stuffings: any[]): StuffingDto[] {
@@ -39,9 +43,21 @@ class PizzaFactoryService implements PizzaRepository {
         description: stuff.description,
         price: stuff.price,
       };
-      const stuffInstance = await this.stuffService.getOrCreateStuffing(
-        stuffRequest
+
+      const stuffInstance = await this.stuffService.getStuffingByName(
+        stuffRequest.name
       );
+
+      const inventoryItem = await this.inventoryService.getInventoryByProductId(
+        stuffInstance.id
+      );
+
+      if (inventoryItem.quantity < 1) {
+        throw new Error("Inventory item is out of stock");
+      }
+
+      this.inventoryService.decreaseQuantity(stuffInstance.id, 1);
+
       stuffings.push(stuffInstance);
     }
 

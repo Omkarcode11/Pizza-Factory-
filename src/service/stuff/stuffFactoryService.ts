@@ -1,11 +1,14 @@
 import Stuff from "../../models/stuff.model";
+import { InventoryService } from "../inventory/inventory.service";
 import { StuffingDto, StuffingInstance, StuffingRepository } from "./types";
 
 class StuffFactoryService implements StuffingRepository {
   private stuff: typeof Stuff;
-  constructor(stuffModel: typeof Stuff) {
+  private inventoryService: InventoryService;
+  constructor(stuffModel: typeof Stuff, inventoryService: InventoryService) {
     // You can initialize any dependencies here if needed
     this.stuff = stuffModel;
+    this.inventoryService = inventoryService;
   }
 
   public async getOrCreateStuffing(
@@ -32,6 +35,8 @@ class StuffFactoryService implements StuffingRepository {
       description: stuffing.description,
       price: stuffing.price,
     });
+
+    this.inventoryService.increaseQuantity(createdStuffing._id.toString(), 1);
 
     return {
       id: createdStuffing._id.toString(),
@@ -90,6 +95,17 @@ class StuffFactoryService implements StuffingRepository {
 
   public async deleteStuffing(id: string): Promise<void> {
     await this.stuff.findByIdAndDelete(id);
+  }
+
+  public async getStuffingByName(name: string): Promise<StuffingDto | null> {
+    const stuffing = await this.stuff.findOne({ name: name });
+    if (!stuffing) return null;
+    return {
+      id: stuffing._id.toString(),
+      name: stuffing.name,
+      description: stuffing.description,
+      price: stuffing.price,
+    };
   }
 }
 

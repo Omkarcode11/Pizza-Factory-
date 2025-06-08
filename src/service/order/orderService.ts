@@ -197,4 +197,23 @@ export class OrderService implements OrderServiceInterface {
       updatedAt: order.updatedAt,
     }));
   }
+
+  public async getOrdersByUserId(userId: string): Promise<OrderStatusDto[]> {
+    const orders = await this.orderRepository.find({
+      user_id: userId,
+    });
+    return orders.map((order) => ({
+      id: order._id.toString(),
+      status: order.status as OrderStatus,
+      amount: order.amount,
+      userId: order.user_id ? order.user_id.toString() : null,
+      chefId: order.chef ? order.chef._id.toString() : null,
+      products: order.products.map((product) => product.product_id.toString()),
+      deliveryAgentId: order.delivery_agent_id
+        ? order.delivery_agent_id.toString()
+        : null,
+      createdAt: order.createdAt,
+      updatedAt: order.updatedAt,
+    }));
+  }
 }

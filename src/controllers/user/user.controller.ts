@@ -1,5 +1,3 @@
-// src/controller/user/user.controller.ts
-
 import { Request, Response } from "express";
 import { UserService } from "../../service/user/user.service";
 import { IUserService } from "../../service/user/types";

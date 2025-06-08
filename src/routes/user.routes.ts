@@ -1,7 +1,8 @@
 import * as express from "express";
-import { getUsers } from "../controllers/user.controller";
+import { UserController } from "../controllers/user/user.controller";
 
 const router = express.Router();
+const userController = new UserController();
 
 /**
  * @swagger
@@ -12,6 +13,6 @@ const router = express.Router();
  *       200:
  *         description: A list of users
  */
-router.get("/", getUsers);
+router.get("/", userController.getAllUser);
 
 export default router;

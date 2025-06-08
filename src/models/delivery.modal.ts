@@ -2,19 +2,19 @@ import mongoose from "mongoose";
 
 const deliverySchema = new mongoose.Schema(
   {
-    orderId: {
+    order_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Order",
     },
-    deliveryAgentId: {
+    delivery_agent_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    paymentId: {
+    payment_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Payment"
     },
-    deliveryAt: {
+    delivery_at: {
       type: Date,
       default: null,
     },

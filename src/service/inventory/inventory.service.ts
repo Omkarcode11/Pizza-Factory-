@@ -38,6 +38,20 @@ export class InventoryService implements IInventoryService {
     };
   }
 
+  public async getInventoryByProductId(id: string): Promise<ItemDto> {
+    const item = await this.inventory
+      .findOne({ product_id: id })
+      .populate("product");
+    return {
+      id: item._id.toString(),
+      product_id: item.product_id.toString(),
+      quantity: item.quantity,
+      capacity: item.capacity,
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt,
+    };
+  }
+
   public async getInventoryByIds(ids: string[]): Promise<ItemDto[]> {
     const items = await this.inventory
       .find({ _id: { $in: ids } })
@@ -56,7 +70,6 @@ export class InventoryService implements IInventoryService {
   public async createInventory(item: ItemInstance): Promise<ItemDto> {
     const itemModal = await this.inventory.create({
       product_id: item.product_id,
-      price: item.price,
       quantity: item.quantity,
       capacity: item.capacity,
     });

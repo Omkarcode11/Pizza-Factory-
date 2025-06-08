@@ -10,8 +10,6 @@ export interface ItemDto {
 
 export interface ItemInstance {
   product_id: string;
-  name: string;
-  price: number;
   quantity: number;
   capacity: number;
 }

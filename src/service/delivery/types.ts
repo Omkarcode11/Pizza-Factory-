@@ -1,20 +1,21 @@
 
-export interface deliveryDto {
+export interface DeliveryDto {
     id : string ,
-    deliveryAgentId: string,
-    orderId: string,
-    deliveryDate: string,
+    delivery_agent_id: string,
+    order_id: string,
+    delivery_at: Date,
     createdAt: Date,
     updatedAt:Date 
 }
 
-export interface deliveryCreateRequest {
+export interface DeliveryCreateRequest {
     orderId: string,
 }
 
 export interface IDeliveryService {
-    getAllDelivery():Promise<deliveryDto[]>
-    getAllDeliveryByUserId(userId:string): Promise<deliveryDto[]>
-    getDeliveryById(deliveryId: string): Promise<deliveryDto>
-    createDelivery(deliveryInstance:deliveryCreateRequest): Promise<deliveryDto>
+    getAllDeliveries():Promise<DeliveryDto[]>
+    getAllDeliveryByUserId(userId:string): Promise<DeliveryDto[]>
+    getDeliveryById(deliveryId: string): Promise<DeliveryDto | null>
+    createDelivery(deliveryInstance:DeliveryCreateRequest): Promise<DeliveryDto>
+    getDeliveryByOrderId(orderId:string): Promise<DeliveryDto | null>
 }
